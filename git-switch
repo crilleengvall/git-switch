@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function usage() {
+  echo ""
+  echo "git switch checks out desired base branch, runs a git pull and creates a new branch with desired name and checks it out"
+  echo ""
+  echo "usage: git switch <base-branch> <new-branch-name>"
+  echo "example: git switch NFW-843 NFW-1337"
+  echo ""
+  echo "skip <base-branch> to use master"
+  echo "example: git switch NFW-1337"
+}
+
+function create_new_branch() {
+  git checkout $1
+  git pull
+  git checkout -b $2
+}
+
+BRANCH="master"
+NAME=$1
+if [[ $# -eq 2 ]]; then
+  BRANCH=$1
+  NAME=$2
+elif [[ $# -eq 0 ]]; then
+  usage
+  exit
+fi
+create_new_branch $BRANCH $NAME
